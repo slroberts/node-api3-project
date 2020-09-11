@@ -80,10 +80,10 @@ router.put("/:id", validateUserId, (req, res) => {
   const changes = req.body;
 
   Users.update(req.params.id, changes)
-    .then((count) => {
-      if (count > 0) {
-        res.status(201).json({message: "User updated"});
-      }
+    .then(() => {
+      Users.getById(req.params.id).then((user) => {
+        res.status(200).json(user);
+      });
     })
     .catch((error) => {
       res.status(500).json({error: "The user could not be modified."});
